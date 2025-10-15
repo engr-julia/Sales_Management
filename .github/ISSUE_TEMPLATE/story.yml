@@ -1,0 +1,33 @@
+name: "User Story"
+description: "Scrum user story format"
+title: "[STORY] - "
+labels: ["story"]
+body:
+  - type: textarea
+    id: story
+    attributes:
+      label: User Story
+      description: "Follow the format: As a [role], I want [goal], so that [reason]."
+      placeholder: "As a user, I want to plug in my laptop, so that I can charge it."
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance Criteria
+      description: "List clear, testable outcomes."
+      placeholder: |
+        - Laptop charges successfully
+        - No errors in adapter
+    validations:
+      required: true
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      options:
+        - High
+        - Medium
+        - Low
