@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SALES MANAGEMENT DASHBOARD</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="dashboard.css">
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <div class="dashboard-header">
+            <h1>Sales Dashboard</h1>
+            <h1></h1>
+            <button id="logout">Logout</button>
+        </div>
+
+        <div id="content">
+            <div class="loading">Loading dashboard...</div>
+        </div>
+    </div>
+
+    <!-- Import authentication script for route protection and logout -->
+    <script type="module">
+        import { protectRoute, getCurrentUser, logout } from '../SALES_LOGIN/auth.js';
+
+        // Protect this route - redirect if not authenticated
+        const user = await protectRoute('/index.html');
+
+        if (user) {
+            // User is authenticated, load dashboard content
+            loadDashboardContent(user);
+        }
+
+        async function loadDashboardContent(user) {
+            const content = document.getElementById('content');
+            
+            // Display user info
+            content.innerHTML = `
+                <div class="user-info">
+                    <h2><strong>Welcome,</strong> ${user.email}</h2>
+                    <p><strong>User ID:</strong> ${user.id}</p>
+                    <p><strong>Logged in since:</strong> ${new Date().toLocaleString()}</p>
+                </div>
+                <div class="dashboard-content">
+                    <h2>Sales Management Dashboard</h2>
+                    <p>Here you can monitor and manage all your sales activities.</p>
+                    <p style="margin-top: 20px; color: #999; font-size: 14px;">
+                        Dashboard features coming soon...
+                    </p>
+                </div>
+            `;
+        }
+
+        // Handle logout button
+        const logoutBtn = document.getElementById('logout');
+        logoutBtn.addEventListener('click', async () => {
+            logoutBtn.disabled = true;
+            logoutBtn.textContent = 'Logging out...';
+            
+            const result = await logout();
+            
+            if (!result.success) {
+                alert('Logout failed: ' + result.error);
+                logoutBtn.disabled = false;
+                logoutBtn.textContent = 'Logout';
+            }
+        });
+    </script>
+</body>
+</html>
